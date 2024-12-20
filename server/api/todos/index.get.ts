@@ -1,19 +1,10 @@
-import { readFileSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import type { ITodo } from "~/todos.ts";
 
-function readData(): ITodo[] {
-  let data: Buffer;
+export default defineEventHandler(async (): Promise<ITodo[]> => {
   try {
-    data = readFileSync("data.json");
+    return JSON.parse(await readFile("data.json", { encoding: "utf-8" }));
   } catch {
     return [];
   }
-  const decoder = new TextDecoder();
-  const todos = decoder.decode(data);
-  return JSON.parse(todos);
-}
-
-export default defineEventHandler((): ITodo[] => {
-  const data = readData();
-  return data;
 });
