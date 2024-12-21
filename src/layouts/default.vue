@@ -5,3 +5,9 @@
     <slot />
   </div>
 </template>
+
+<style lang="css">
+* {
+  font-family: Helvetica, Arial, sans-serif;
+}
+</style>

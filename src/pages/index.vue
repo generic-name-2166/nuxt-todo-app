@@ -1,32 +1,51 @@
 <script setup lang="ts">
-import { computed, useTemplateRef } from "vue";
+import { $fetch } from "ofetch";
+import { useTemplateRef } from "vue";
 import { useFetch, useId } from "#app";
-import type { ITodo } from "~/todos.ts";
+import { useTodos, type ITodo } from "~/todos.ts";
 
 const { data } = await useFetch("/api/todos");
-console.log(data.value);
-const todos = computed<[number, ITodo][]>(() =>
-  (data.value as ITodo[]).map((value, index) => [index, value]),
-);
+
+function filterTodos(value: ITodo[] | undefined): ITodo[] {
+  return (
+    value?.map(({ id, text, done }) => ({ id, text, done }) satisfies ITodo) ??
+    []
+  );
+}
+
+const todos = useTodos();
+todos.init(filterTodos(data.value));
 
 const dialog = useTemplateRef("dialog");
 const createTextId = useId();
 
 const open = () => dialog.value?.showModal();
 const close = () => dialog.value?.close();
+
+const submit = (event: Event): Promise<void> => {
+  const form = event.target as HTMLFormElement;
+  const data = new FormData(form);
+
+  const body = todos.append(data.get("text") as string);
+  close();
+
+  const route = form.action;
+  const method = form.method;
+  return $fetch(route, {
+    method,
+    body,
+  });
+};
 </script>
 
 <template>
-  <main>
-    <div>
-      <p v-for="[key, todo] in todos" :key="key">{{ todo.text }}</p>
-      <p v-if="todos.length < 1">Add a todo!</p>
-    </div>
+  <main :class="$style.main">
+    <TodoTable />
 
     <button type="button" @click="open">Create</button>
 
     <dialog ref="dialog">
-      <form action="/api/todos" method="POST">
+      <form action="/api/todos" method="POST" @submit.prevent="submit">
         <label :for="createTextId">Text</label>
         <input
           :id="createTextId"
@@ -42,3 +61,11 @@ const close = () => dialog.value?.close();
     </dialog>
   </main>
 </template>
+
+<style lang="css" module>
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

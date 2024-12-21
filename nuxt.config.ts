@@ -15,4 +15,5 @@ export default defineNuxtConfig({
   nitro: {
     preset: "node_server",
   },
+  modules: ["@pinia/nuxt"],
 });
