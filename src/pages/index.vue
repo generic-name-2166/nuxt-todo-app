@@ -28,6 +28,7 @@ const submit = (event: Event): Promise<void> => {
 
   const body = todos.append(data.get("text") as string);
   close();
+  form.reset();
 
   const route = form.action;
   const method = form.method;
