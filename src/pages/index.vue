@@ -45,8 +45,13 @@ const submit = (event: Event): Promise<void> => {
 
     <button type="button" @click="open">Create</button>
 
-    <dialog ref="dialog">
-      <form action="/api/todos" method="POST" @submit.prevent="submit">
+    <dialog ref="dialog" :class="$style.dialog">
+      <form
+        action="/api/todos"
+        method="POST"
+        :class="$style.form"
+        @submit.prevent="submit"
+      >
         <label :for="createTextId">Text</label>
         <input
           :id="createTextId"
@@ -68,5 +73,15 @@ const submit = (event: Event): Promise<void> => {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.dialog {
+  border-radius: 1rem;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
 }
 </style>
