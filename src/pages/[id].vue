@@ -2,19 +2,6 @@
 import { createError, useFetch, useRoute } from "#app";
 import { useTodos, type ITodo } from "~/todos.ts";
 
-const { data } = await useFetch("/api/todos");
-
-function filterTodos(value: ITodo[] | undefined): ITodo[] {
-  return (
-    value?.map(
-      ({ id, tasks, title }) => ({ id, tasks, title }) satisfies ITodo,
-    ) ?? []
-  );
-}
-
-const todos = useTodos();
-todos.init(filterTodos(data.value));
-
 const route = useRoute();
 const slug = route.params.id;
 if (!slug || typeof slug !== "string") {
@@ -33,13 +20,30 @@ try {
   });
 }
 
-const todo: ITodo | undefined = todos.inner.find((value) => value.id === id);
-if (!todo) {
-  throw createError({
-    status: 404,
-    statusText: `TODO with id ${slug} doesn't exist`,
-  });
+const request = `/api/todos/${id}`;
+const { data } = await useFetch(request);
+
+function filterTodo(value: ITodo | undefined, slug: string): ITodo {
+  if (!value) {
+    throw createError({
+      status: 404,
+      statusText: `TODO with id ${slug} doesn't exist aaa`,
+    });
+  }
+  return {
+    id: value.id,
+    title: value.title,
+    tasks: value.tasks,
+  } satisfies ITodo;
 }
+
+const todos = useTodos();
+const serverTodo = filterTodo(data.value as ITodo | undefined, slug);
+if (todos.inner.length < 1) {
+  todos.init([serverTodo]);
+}
+
+const todo: ITodo = todos.inner.find((value) => value.id === id) ?? serverTodo;
 </script>
 
 <template>

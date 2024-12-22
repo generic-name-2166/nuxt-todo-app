@@ -28,7 +28,9 @@ const submit = (event: Event): Promise<void> => {
   const data = new FormData(form);
 
   const title = data.get("title") as string;
-  const tasks = data.getAll("tasks[]") as string[];
+  const tasks = (data.getAll("tasks[]") as string[]).filter(
+    (task) => task.length > 0,
+  );
   const body = todos.append(title, tasks);
   close();
   form.reset();
