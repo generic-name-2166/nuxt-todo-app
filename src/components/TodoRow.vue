@@ -50,6 +50,16 @@ const submit = (): Promise<void> => {
 }
 
 .a {
-  display: block;
+  padding-inline: 0;
+  padding-block: 2px;
+  border: 1px solid gray;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.a:hover {
+  background-color: #aaa;
 }
 </style>
