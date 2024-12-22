@@ -16,7 +16,6 @@ function getNewId(data: ITodo[]): number {
 
 export const useTodos = defineStore("todos", () => {
   const inner = shallowRef<ITodo[]>([]);
-  watchEffect(() => console.log(inner.value));
 
   const init = (value: ITodo[]): void => void (inner.value = value);
 
