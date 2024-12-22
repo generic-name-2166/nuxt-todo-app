@@ -34,8 +34,7 @@ const submit = (): Promise<void> => {
 </script>
 
 <template>
-  <label><input type="checkbox" disabled :checked="todo.done" /></label>
-  <p :class="$style.p">{{ todo.text }}</p>
+  <p :class="$style.p">{{ todo.title }}</p>
   <a :href="`/${todo.id}`" :class="$style.a">Edit</a>
   <form @submit.prevent="submit">
     <Confirmation :ref="refKey">

@@ -9,7 +9,6 @@ const todos = computed<ITodo[]>(() => store.inner);
 
 <template>
   <div :class="$style.div">
-    <h2 :class="$style.h2">Done</h2>
     <h2 :class="$style.h2">Note</h2>
     <h2 :class="$style.h2">Edit</h2>
     <h2 :class="$style.h2">Delete</h2>
@@ -33,10 +32,7 @@ const todos = computed<ITodo[]>(() => store.inner);
   padding: 1rem;
   border: 1px solid gray;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 7fr) minmax(0, 1fr) minmax(
-      0,
-      1fr
-    );
+  grid-template-columns: minmax(0, 7fr) minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 2rem;
   row-gap: 1rem;
 }
@@ -46,6 +42,6 @@ const todos = computed<ITodo[]>(() => store.inner);
 }
 
 .else {
-  grid-column: span 4 / span 4;
+  grid-column: span 3 / span 3;
 }
 </style>

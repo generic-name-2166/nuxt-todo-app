@@ -2,8 +2,11 @@ import { defineStore } from "pinia";
 
 export interface ITodo {
   id: number;
-  done: boolean;
-  text: string;
+  title: string;
+  tasks: {
+    done: boolean;
+    text: string;
+  }[];
 }
 
 function getNewId(data: ITodo[]): number {
@@ -24,8 +27,12 @@ export const useTodos = defineStore("todos", () => {
       .slice(0, idx)
       .concat(inner.value.slice(idx + 1, inner.value.length)));
 
-  const append = (text: string): ITodo => {
-    const todo: ITodo = { id: getNewId(inner.value), text, done: false };
+  const append = (title: string, tasks: string[]): ITodo => {
+    const todo: ITodo = {
+      id: getNewId(inner.value),
+      title,
+      tasks: tasks.map((text) => ({ done: false, text })),
+    };
     inner.value = [...inner.value, todo];
     return todo;
   };

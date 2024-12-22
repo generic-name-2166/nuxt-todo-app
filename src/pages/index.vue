@@ -8,8 +8,9 @@ const { data } = await useFetch("/api/todos");
 
 function filterTodos(value: ITodo[] | undefined): ITodo[] {
   return (
-    value?.map(({ id, text, done }) => ({ id, text, done }) satisfies ITodo) ??
-    []
+    value?.map(
+      ({ id, title, tasks }) => ({ id, title, tasks }) satisfies ITodo,
+    ) ?? []
   );
 }
 
@@ -26,7 +27,9 @@ const submit = (event: Event): Promise<void> => {
   const form = event.target as HTMLFormElement;
   const data = new FormData(form);
 
-  const body = todos.append(data.get("text") as string);
+  const title = data.get("title") as string;
+  const tasks = data.getAll("tasks[]") as string[];
+  const body = todos.append(title, tasks);
   close();
   form.reset();
 
@@ -52,14 +55,24 @@ const submit = (event: Event): Promise<void> => {
         :class="$style.form"
         @submit.prevent="submit"
       >
-        <label :for="createTextId">Text</label>
+        <label :for="createTextId"><h1 :class="$style.h1">Title</h1></label>
         <input
           :id="createTextId"
-          name="text"
+          name="title"
           type="text"
           required
           minlength="1"
         />
+
+        <template v-for="idx in Array(5).keys()" :key="idx">
+          <label :for="`${createTextId}-${idx}`">Task</label>
+          <input
+            :id="`${createTextId}-${idx}`"
+            type="text"
+            name="tasks[]"
+            minlength="1"
+          />
+        </template>
 
         <button type="button" formnovalidate @click="close">Cancel</button>
         <button type="submit">Submit</button>
@@ -83,5 +96,9 @@ const submit = (event: Event): Promise<void> => {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
+}
+
+.h1 {
+  margin: 0;
 }
 </style>

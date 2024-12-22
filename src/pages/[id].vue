@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { createError, useFetch, useRoute, useId } from "#app";
+import { createError, useFetch, useRoute } from "#app";
 import { useTodos, type ITodo } from "~/todos.ts";
 
 const { data } = await useFetch("/api/todos");
 
 function filterTodos(value: ITodo[] | undefined): ITodo[] {
   return (
-    value?.map(({ id, text, done }) => ({ id, text, done }) satisfies ITodo) ??
-    []
+    value?.map(
+      ({ id, tasks, title }) => ({ id, tasks, title }) satisfies ITodo,
+    ) ?? []
   );
 }
 
@@ -32,26 +33,20 @@ try {
   });
 }
 
-const todo: ITodo | undefined = todos.inner.find(value => value.id === id);
+const todo: ITodo | undefined = todos.inner.find((value) => value.id === id);
 if (!todo) {
   throw createError({
     status: 404,
     statusText: `TODO with id ${slug} doesn't exist`,
   });
 }
-
-const forId = useId();
 </script>
 
 <template>
   <div :class="$style.div">
     <main :class="$style.main">
-
-      <input :id="forId" type="checkbox" />
-      <label :for="forId">Done</label>
-      
-      <p :class="$style.p">Text</p>
-      <p :class="$style.p">{{ todo.text }}</p>
+      <h1>{{ todo.title }}</h1>
+      <DetailsTodo :tasks="todo.tasks" />
     </main>
   </div>
 </template>
