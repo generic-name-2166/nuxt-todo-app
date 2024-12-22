@@ -9,7 +9,7 @@ const props = defineProps<DetailsTodoProps>();
 </script>
 
 <template>
-  <div>
+  <div :class="$style.div">
     <DetailsTask
       v-for="task in props.tasks"
       :key="task.text"
@@ -18,3 +18,11 @@ const props = defineProps<DetailsTodoProps>();
     />
   </div>
 </template>
+
+<style lang="css" module>
+.div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
+  gap: 0.5rem;
+}
+</style>

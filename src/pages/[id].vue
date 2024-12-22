@@ -49,7 +49,7 @@ const todo: ITodo = todos.inner.find((value) => value.id === id) ?? serverTodo;
 <template>
   <div :class="$style.div">
     <main :class="$style.main">
-      <h1>{{ todo.title }}</h1>
+      <h1 :class="$style.h1">{{ todo.title }}</h1>
       <DetailsTodo :tasks="todo.tasks" />
     </main>
   </div>
@@ -65,9 +65,14 @@ const todo: ITodo = todos.inner.find((value) => value.id === id) ?? serverTodo;
 .main {
   border: 1px solid gray;
   padding: 2rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
+}
+
+.h1 {
+  margin: 0;
+  grid-column: span 2 / span 2;
 }
 
 .p {
