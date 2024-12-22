@@ -35,9 +35,9 @@ const submit = (): Promise<void> => {
 
 <template>
   <p :class="$style.p">{{ todo.title }}</p>
-  <a :href="`/${todo.id}`" :class="$style.a">Edit</a>
+  <NuxtLink :href="`/${todo.id}`" :class="$style.a">Edit</NuxtLink>
   <form @submit.prevent="submit">
-    <Confirmation :ref="refKey">
+    <Confirmation :ref="refKey" :class="$style.button">
       <template #click>Delete</template>
       Are you sure you want to delete this TODO?
     </Confirmation>
@@ -60,6 +60,22 @@ const submit = (): Promise<void> => {
 }
 
 .a:hover {
+  background-color: #aaa;
+}
+
+.button {
+  padding: 0.5rem;
+  margin: 0;
+  border: 1px solid gray;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  font-size: medium;
+}
+
+.button:hover {
   background-color: #aaa;
 }
 </style>

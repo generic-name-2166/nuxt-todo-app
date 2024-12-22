@@ -10,29 +10,61 @@ defineExpose({
   open,
   close,
 });
+
+interface ConfirmationEmits {
+  click: [];
+}
+
+const emit = defineEmits<ConfirmationEmits>();
+
+interface ConfirmationProps {
+  class?: string;
+  redirect?: string;
+}
+
+const props = defineProps<ConfirmationProps>();
 </script>
 
 <template>
-  <button type="button" :class="$style.button" @click="open">
+  <button type="button" :class="props.class" @click="open">
     <slot name="click" />
   </button>
   <dialog ref="dialog">
     <p><slot /></p>
-    <button type="button" :class="$style.button" @click="close">
-      <slot name="cancel">Cancel</slot>
-    </button>
-    <button type="submit" :class="$style.button">
-      <slot name="submit">Confirm</slot>
-    </button>
+    <div :class="$style.div">
+      <button type="button" :class="$style.button" @click="close">
+        <slot name="cancel">Cancel</slot>
+      </button>
+      <button
+        v-if="props.redirect === undefined"
+        type="submit"
+        :class="$style.button"
+        @click="emit('click')"
+      >
+        <slot name="submit">Confirm</slot>
+      </button>
+      <NuxtLink
+        v-else
+        :to="props.redirect"
+        :class="$style.button"
+        @click="emit('click')"
+      >
+        <slot name="submit">Confirm</slot>
+      </NuxtLink>
+    </div>
   </dialog>
 </template>
 
 <style lang="css" module>
+.div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .button {
-  width: 100%;
-  height: 100%;
-  padding-inline: 0;
-  padding-block: 2px;
+  padding: 0.5rem;
+  margin: 0;
   border: 1px solid gray;
   border-radius: 2px;
   display: flex;

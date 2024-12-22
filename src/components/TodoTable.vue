@@ -20,9 +20,7 @@ const todos = computed<ITodo[]>(() => store.inner);
       :idx="idx"
     />
 
-    <p v-if="todos.length < 1" :class="`${$style.else} ${$style.p}`">
-      Add a todo!
-    </p>
+    <p v-if="todos.length < 1" :class="[$style.else, $style.p]">Add a todo!</p>
   </div>
 </template>
 

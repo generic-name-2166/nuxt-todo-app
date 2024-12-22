@@ -37,5 +37,10 @@ export const useTodos = defineStore("todos", () => {
     return todo;
   };
 
-  return { inner, init, remove, append };
+  const update = (idx: number, todo: ITodo): void =>
+    void (inner.value = inner.value
+      .slice(0, idx)
+      .concat([todo, ...inner.value.slice(idx + 1, inner.value.length)]));
+
+  return { inner, init, remove, append, update };
 });
