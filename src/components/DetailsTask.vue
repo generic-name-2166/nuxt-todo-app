@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { useId } from "vue";
 
-interface TodoTaskProps {
+interface TodoTaskModel {
   text: string;
   done: boolean;
 }
 
-const props = defineProps<TodoTaskProps>();
+const model = defineModel<TodoTaskModel>({ required: true });
 
 const id = useId();
 </script>
 
 <template>
-  <input :id="id" type="checkbox" :checked="props.done" />
+  <input :id="id" v-model="model.done" type="checkbox" />
 
-  <label :for="id" :class="$style.label">{{ props.text }}</label>
+  <label :for="id" :class="$style.label">{{ model.text }}</label>
 </template>
 
 <style lang="css" module>

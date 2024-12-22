@@ -72,7 +72,7 @@ const put = (): Promise<void> => {
   <div :class="$style.div">
     <main :class="$style.main">
       <h1 :class="$style.h1">{{ model.title }}</h1>
-      <DetailsTodo :tasks="model.tasks" />
+      <DetailsTodo v-model="model.tasks" />
       <div :class="$style.div">
         <div :class="$style.wrapper">
           <Confirmation :class="$style.button" redirect="/" @click="remove">
@@ -86,9 +86,11 @@ const put = (): Promise<void> => {
         <div :class="$style.wrapper">
           <NuxtLink to="/" :class="$style.button">Cancel</NuxtLink>
         </div>
-        <form :class="$style.wrapper" @submit.prevent="put">
-          <button type="submit" :class="$style.button">Update</button>
-        </form>
+        <div :class="$style.wrapper">
+          <button type="button" :class="$style.button" @click="put">
+            Save
+          </button>
+        </div>
       </div>
     </main>
   </div>

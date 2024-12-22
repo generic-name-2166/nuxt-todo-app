@@ -1,21 +1,17 @@
 <script setup lang="ts">
 import type { ITodo } from "~/todos.ts";
 
-interface DetailsTodoProps {
-  tasks: ITodo["tasks"];
-}
-
-const props = defineProps<DetailsTodoProps>();
+const tasks = defineModel<ITodo["tasks"]>({ required: true });
 </script>
 
 <template>
   <div :class="$style.div">
     <DetailsTask
-      v-for="task in props.tasks"
+      v-for="(task, idx) in tasks"
       :key="task.text"
-      :text="task.text"
-      :done="task.done"
+      v-model="tasks[idx]!"
     />
+    <!-- https://stackoverflow.com/a/68655002 -->
   </div>
 </template>
 
