@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { removeAt, type ITodo } from "~/todos.ts";
+import type { ITodo } from "~/todos.ts";
+import { removeAt } from "~/utils.ts";
 
 const tasks = defineModel<ITodo["tasks"]>({ required: true });
 

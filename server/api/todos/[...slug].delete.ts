@@ -2,6 +2,7 @@ import { writeFile } from "node:fs/promises";
 import type { H3Event } from "h3";
 import { readData } from "./index.post.ts";
 import type { ITodo } from "~/todos.ts";
+import { removeAt } from "~/utils.ts";
 
 function create404(slug: string | undefined): Error {
   return createError({
@@ -27,9 +28,7 @@ async function handler(event: H3Event): Promise<void> {
     throw create404(slug);
   }
 
-  const newData: ITodo[] = data
-    .slice(0, idx)
-    .concat(data.slice(idx + 1, data.length));
+  const newData: ITodo[] = removeAt(data, idx);
 
   return writeFile("data.json", JSON.stringify(newData));
 }

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { removeAt } from "./utils.ts";
 
 export interface ITodo {
   id: number;
@@ -17,19 +18,13 @@ function getNewId(data: ITodo[]): number {
   return max + 1;
 }
 
-export function removeAt<T>(array: T[], idx: number): T[] {
-  return array.slice(0, idx).concat(array.slice(idx + 1, array.length));
-}
-
 export const useTodos = defineStore("todos", () => {
   const inner = shallowRef<ITodo[]>([]);
 
   const init = (value: ITodo[]): void => void (inner.value = value);
 
   const remove = (idx: number): void =>
-    void (inner.value = inner.value
-      .slice(0, idx)
-      .concat(inner.value.slice(idx + 1, inner.value.length)));
+    void (inner.value = removeAt(inner.value, idx));
 
   const append = (title: string, tasks: string[]): ITodo => {
     const todo: ITodo = {
