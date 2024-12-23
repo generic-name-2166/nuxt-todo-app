@@ -91,7 +91,10 @@ const put = (): Promise<void> => {
           </button>
         </div>
         <div :class="$style.wrapper">
-          <NuxtLink to="/" :class="$style.button">Cancel</NuxtLink>
+          <Confirmation :class="$style.button" redirect="/">
+            <template #click>Cancel</template>
+            Any unsaved changes will be discarded. Are you sure?
+          </Confirmation>
         </div>
         <div :class="$style.wrapper">
           <button type="button" :class="$style.button" @click="put">
