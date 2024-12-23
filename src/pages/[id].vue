@@ -42,10 +42,13 @@ function filterTodo(value: ITodo | undefined, slug: string): ITodo {
 const todos = useTodos();
 const serverTodo = filterTodo(data.value as ITodo | undefined, slug);
 if (todos.inner.length < 1) {
+  // If user goes from one todo directly to another this fails
   todos.init([serverTodo]);
 }
 
-const todo: ITodo = todos.inner.find((value) => value.id === id) ?? serverTodo;
+// Cloning because ref then wraps it in a proxy
+const todo: ITodo =
+  todos.inner.find((value) => value.id === id) ?? structuredClone(serverTodo);
 
 const model = ref<ITodo>(todo);
 
@@ -57,6 +60,8 @@ const remove = (): Promise<void> => {
     method: "DELETE",
   });
 };
+// `serverTodo` as an immutable origin of truth from the server
+const reset = (): void => void (model.value = structuredClone(serverTodo));
 const put = (): Promise<void> => {
   const idx: number = todos.inner.findIndex((value) => value.id === id);
   todos.update(idx, model.value);
@@ -81,7 +86,9 @@ const put = (): Promise<void> => {
           </Confirmation>
         </div>
         <div :class="$style.wrapper">
-          <button type="button" :class="$style.button">Reset</button>
+          <button type="button" :class="$style.button" @click="reset">
+            Reset
+          </button>
         </div>
         <div :class="$style.wrapper">
           <NuxtLink to="/" :class="$style.button">Cancel</NuxtLink>
