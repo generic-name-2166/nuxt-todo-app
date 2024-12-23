@@ -26,9 +26,9 @@ const toggle = (): void => void (editing.value = !editing.value);
   }}</label>
   <input v-show="editing" v-model="model.text" type="text" />
 
-  <button type="button" @click="toggle">Edit</button>
+  <button type="button" :class="$style.button" @click="toggle">Edit</button>
 
-  <button type="button" @click="$emit('remove')">Delete</button>
+  <button type="button" :class="$style.button" @click="$emit('remove')">Delete</button>
 </template>
 
 <style lang="css" module>
@@ -37,5 +37,20 @@ const toggle = (): void => void (editing.value = !editing.value);
   width: 100%;
   height: 100%;
   align-items: center;
+}
+
+.button {
+  padding: 0.5rem;
+  margin: 0;
+  border: 1px solid gray;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.button:hover {
+  background-color: #aaa;
 }
 </style>

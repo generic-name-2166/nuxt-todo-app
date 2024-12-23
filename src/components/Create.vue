@@ -89,12 +89,12 @@ const submit = (event: Event): Promise<void> => {
   background-color: transparent;
 }
 
-.h1 {
-  margin: 0;
-}
-
 .button:hover {
   background-color: #aaa;
+}
+
+.h1 {
+  margin: 0;
 }
 
 .dialog {
