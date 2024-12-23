@@ -15,7 +15,7 @@ interface ConfirmationEmits {
   click: [];
 }
 
-const emit = defineEmits<ConfirmationEmits>();
+defineEmits<ConfirmationEmits>();
 
 interface ConfirmationProps {
   class?: string;
@@ -39,7 +39,7 @@ const props = defineProps<ConfirmationProps>();
         v-if="props.redirect === undefined"
         type="submit"
         :class="$style.button"
-        @click="emit('click')"
+        @click="$emit('click')"
       >
         <slot name="submit">Confirm</slot>
       </button>
@@ -47,7 +47,7 @@ const props = defineProps<ConfirmationProps>();
         v-else
         :to="props.redirect"
         :class="$style.button"
-        @click="emit('click')"
+        @click="$emit('click')"
       >
         <slot name="submit">Confirm</slot>
       </NuxtLink>

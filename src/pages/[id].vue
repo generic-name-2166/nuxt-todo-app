@@ -78,6 +78,7 @@ const put = (): Promise<void> => {
     <main :class="$style.main">
       <h1 :class="$style.h1">{{ model.title }}</h1>
       <DetailsTodo v-model="model.tasks" />
+
       <div :class="$style.div">
         <div :class="$style.wrapper">
           <Confirmation :class="$style.button" redirect="/" @click="remove">
