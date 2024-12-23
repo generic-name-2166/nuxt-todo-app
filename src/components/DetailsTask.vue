@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useId } from "vue";
+import { ref, useId, watch } from "vue";
 
 interface TodoTaskModel {
   text: string;
@@ -15,20 +15,32 @@ defineEmits<TodoTaskEmits>();
 const id = useId();
 
 const editing = ref<boolean>(false);
-const toggle = (): void => void (editing.value = !editing.value);
+const edit = () => (editing.value = true);
+const save = () => ((editing.value = false), (model.value.text = crutch.value));
+
+// Buffering model changes with a crutch
+// because otherwise on every change the component rerenders and editings is set to false
+const crutch = ref<string>(model.value.text);
+// Watching for parent resets
+watch(model, (value): void => void (crutch.value = value.text));
 </script>
 
 <template>
   <input :id="id" v-model="model.done" type="checkbox" />
 
-  <label v-show="!editing" :for="id" :class="$style.label">{{
-    model.text
-  }}</label>
-  <input v-show="editing" v-model="model.text" type="text" />
+  <label v-show="!editing" :for="id" :class="$style.label">{{ crutch }}</label>
+  <input v-show="editing" v-model="crutch" type="text" />
 
-  <button type="button" :class="$style.button" @click="toggle">Edit</button>
+  <button v-if="editing" type="button" :class="$style.button" @click="save">
+    Save
+  </button>
+  <button v-else type="button" :class="$style.button" @click="edit">
+    Edit
+  </button>
 
-  <button type="button" :class="$style.button" @click="$emit('remove')">Delete</button>
+  <button type="button" :class="$style.button" @click="$emit('remove')">
+    Delete
+  </button>
 </template>
 
 <style lang="css" module>
