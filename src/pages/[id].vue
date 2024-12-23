@@ -41,10 +41,6 @@ function filterTodo(value: ITodo | undefined, slug: string): ITodo {
 
 const todos = useTodos();
 const serverTodo = filterTodo(data.value as ITodo | undefined, slug);
-if (todos.inner.length < 1) {
-  // If user goes from one todo directly to another this fails
-  todos.init([serverTodo]);
-}
 
 // Cloning because ref then wraps it in a proxy
 const todo: ITodo =
