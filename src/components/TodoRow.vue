@@ -47,6 +47,8 @@ const submit = (): Promise<void> => {
 <style lang="css" module>
 .p {
   margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 .a {

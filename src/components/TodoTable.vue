@@ -29,14 +29,16 @@ const todos = computed<ITodo[]>(() => store.inner);
   margin: 1rem;
   padding: 1rem;
   border: 1px solid gray;
+  min-width: min-content;
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 7fr) 1fr 1fr;
   column-gap: 2rem;
   row-gap: 1rem;
 }
 
 .h2 {
   margin: 0;
+  min-width: min-content;
 }
 
 .else {

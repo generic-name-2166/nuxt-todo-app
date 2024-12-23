@@ -22,7 +22,7 @@ const append = (): void =>
       v-model="tasks[idx]!"
       @remove="remove(idx)"
     />
-    
+
     <button type="button" :class="$style.button" @click="append">Add</button>
   </div>
 </template>

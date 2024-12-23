@@ -2,7 +2,7 @@
 
 A full-stack TODO app
 
-## How to run 
+## How to run
 
 ### With Docker
 
