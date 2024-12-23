@@ -21,10 +21,10 @@ const toggle = (): void => void (editing.value = !editing.value);
 <template>
   <input :id="id" v-model="model.done" type="checkbox" />
 
-  <label v-show="editing" :for="id" :class="$style.label">{{
+  <label v-show="!editing" :for="id" :class="$style.label">{{
     model.text
   }}</label>
-  <input v-show="!editing" v-model="model.text" type="text" />
+  <input v-show="editing" v-model="model.text" type="text" />
 
   <button type="button" @click="toggle">Edit</button>
 
