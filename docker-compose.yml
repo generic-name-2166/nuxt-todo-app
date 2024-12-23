@@ -1,0 +1,11 @@
+services:
+  nuxt_todo_app:
+    image: nuxt-todo-app
+    pull_policy: never
+    container_name: nuxt_todo_app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: runner
+    ports:
+      - 3000:3000

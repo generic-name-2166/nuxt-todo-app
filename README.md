@@ -7,8 +7,10 @@ A full-stack TODO app
 ### With Docker
 
 ```bash
-docker compose up
+docker compose up --build
 ```
+
+And go to http://localhost:3000
 
 ### Dev
 
